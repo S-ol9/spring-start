@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HelloController {
     @GetMapping("hello")
     public String hello(Model model) {
-        model.addAttribute("data", "spring!");
+        model.addAttribute("data", "spring~");
         return "hello"; // 템플릿 이름을 찾아 렌더링
     }
 }

@@ -1,29 +1,20 @@
-package service;
+package hello.hello_spring.service;
 
 import hello.hello_spring.domain.Member;
-import hello.hello_spring.service.MemberService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import hello.hello_spring.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
-import hello.hello_spring.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MemberServiceTest {
-    MemberService memberService;
-    MemoryMemberRepository memberRepository = new MemoryMemberRepository();
-
-    @BeforeEach
-    public void beforeEach() {
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
-
-    @AfterEach
-    public void afterEach() { // 케이스 돌 때마다 DB 값 초기화
-        memberRepository.clearStore();
-    }
+@SpringBootTest
+@Transactional
+public class MemberServiceIntegrationTest {
+    @Autowired MemberService memberService;
+    @Autowired MemberRepository memberRepository;
 
     @Test
     void 회원가입() {
@@ -44,10 +35,10 @@ class MemberServiceTest {
     public void 중복_회원_예외() {
         // given
         Member member1 = new Member();
-        member1.setName("spring");
+        member1.setName("spring1");
 
         Member member2 = new Member();
-        member2.setName("spring");
+        member2.setName("spring1");
 
         // when
         memberService.join(member1);
